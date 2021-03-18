@@ -1,0 +1,10 @@
+# 옵션 열거
+# 둘 중 하나만 입력 가능
+enum ACTIONS {
+    EDIT
+    DELETE
+}
+
+type Mutation {
+    editPost(id: Int!, caption:String, location:String, action: ACTIONS!): Post!
+}

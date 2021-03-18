@@ -1,0 +1,118 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+//findOne
+//findMany
+//create
+//update
+//updateMany
+//upsert
+//delete
+//deleteMany
+//count
+
+// schema.prisma : DB 데이터 모델
+// models.graphql : 서버의 GraphQl에서 사용하는 모델, 위와 달리 없는 Column을 만들어 넣거나 해서 릴레이션을 커스터마이징 가능
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id           Int       @id @default(autoincrement())
+  avatar       String
+  username     String    @unique
+  email        String    @unique
+  firstName    String    @default(value: "")
+  lastName     String
+  // fullName       String
+  // isFollowing Boolean
+  // isSelf      Boolean
+  bio          String
+  following    User[]    @relation(name: "FollowRelation")
+  // followingCount Int
+  followers    User[]    @relation(name: "FollowRelation")
+  // followerCount  Int
+  posts        Post[]
+  // postsCount     Int
+  likes        Like[]
+  comments     Comment[]
+  rooms        Room[]
+  loginSecret  String    @default(value: "")
+  createAt     DateTime  @default(dbgenerated())
+  updateAt     DateTime  @default(dbgenerated())
+  fromMessages Message[] @relation(name: "fromUser")
+  toMessages   Message[] @relation(name: "toUser")
+}
+
+model Post {
+  id       Int       @id @default(autoincrement())
+  location String    @default("")
+  caption  String
+  user     User      @relation(fields: [userId], references: [id])
+  userId   Int
+  files    File[]
+  likes    Like[]
+  comments Comment[]
+  // isLinked     Boolean
+  // likeCount Int
+  // commentCount Int
+  createAt DateTime  @default(dbgenerated())
+  updateAt DateTime  @default(dbgenerated())
+}
+
+model Like {
+  id       Int      @id @default(autoincrement())
+  user     User     @relation(fields: [userId], references: [id])
+  userId   Int
+  post     Post     @relation(fields: [postId], references: [id])
+  postId   Int
+  createAt DateTime @default(dbgenerated())
+  updateAt DateTime @default(dbgenerated())
+}
+
+model Comment {
+  id       Int      @id @default(autoincrement())
+  text     String
+  user     User     @relation(fields: [userId], references: [id])
+  userId   Int
+  post     Post     @relation(fields: [postId], references: [id])
+  postId   Int
+  createAt DateTime @default(dbgenerated())
+  updateAt DateTime @default(dbgenerated())
+}
+
+model File {
+  id       Int      @id @default(autoincrement())
+  url      String
+  post     Post     @relation(fields: [postId], references: [id])
+  postId   Int
+  createAt DateTime @default(dbgenerated())
+  updateAt DateTime @default(dbgenerated())
+}
+
+model Room {
+  id           Int       @id @default(autoincrement())
+  participants User[]
+  messages     Message[]
+  createAt     DateTime  @default(dbgenerated())
+  updateAt     DateTime  @default(dbgenerated())
+}
+
+model Message {
+  id       Int      @id @default(autoincrement())
+  text     String
+  from     User     @relation(fields: [fromId], references: [id], name: "fromUser")
+  fromId   Int
+  to       User     @relation(fields: [toId], references: [id], name: "toUser")
+  toId     Int
+  room     Room     @relation(fields: [roomId], references: [id])
+  roomId   Int
+  createAt DateTime @default(dbgenerated())
+  updateAt DateTime @default(dbgenerated())
+}

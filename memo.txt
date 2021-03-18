@@ -1,0 +1,53 @@
+yarn add nodemon -D : src/server.js 에 있는 코드를 실행하는 script를 작성하는데 사용
+yarn add @babel/cli  : 코드를 구형 브라우저에서도 지원되게 해줌.
+
+nodemon             : 파일을 저장할 때마다 실행을 새로 해줌. 
+nodemon.json : ext -> nodemon이 감시해야 할 파일의 확장자들을 지정할 수 있다.
+
+yarn add dotenv     : parametar를 .env 파일에서 읽어올 수 있다.
+
+yarn add @babel/node
+yarn add @babel/preset-env
+yarn add @babel/core
+    
+yarn add graphql-yoga  : GraphQLServer에는 express서버가 내장되어 있다.
+yarn add graphql-tools : schemas.js에서 통합을 위한 라이브러리1
+yarn add merge-graphql-schemas : schemas.js에서 통합을 위한 라이브러리2
+
+yarn add morgan     : 미들웨어. logger( 로깅 전용 모듈 )
+
+/*********************************************************/
+Prisma : open source database toolkit
+# yarn add global prisma     : 설치
+# yarn add @prisma/cli --dev : prisma server와 정보를 주고받는 용도 (prisma와 상호작용할 client는 javascript)
+# yarn prisma init           : 프로젝트에 prisma 추가
+# yarn prisma generate       : reads your Prisma schema and generates the Prisma Client code. The code will be located in node_modules/@prisma/client
+
+- DB와 스키마 연동하기
+# 1. Change your database schema using SQL (e.g. CREATE TABLE, ALTER TABLE, ...)
+# 2. Run prisma introspect to introspect the database and add application models to the Prisma schema
+# 3. Run prisma generate to update your Prisma Client API
+
+- 브라우저에서 테스트 가능
+# yarn prisma studio --experimental
+# prisma studio --port 7777 --experimental
+
+/*********************************************************/
+# sendgrid
+    ㄴ 실행 1회차
+        yarn add nodemailer : email 전송 모듈
+        yarn add nodemailer-sendgrid-transport : nodemailer와 sendgrid(가입 필요) 연동 모듈
+    ㄴ 실행 2회차
+        yarn add @sendgrid/mail : email 전송 모듈
+
+# Mailgun
+    ㄴ sendgrid 가 잘 안돼서 Mailgun으로 수행
+        yarn add` nodemailer : email 전송 모듈
+        yarn add nodemailer-mailgun-transport
+
+/*********************************************************/
+# yarn add passport     : TOKEN을 만드는데 사용할 lib, 인증 관련한 모든 일을 진행해준다. jwt 토큰이나 쿠키에서 정보를 가져와 사용자 정보에 serialize(저장)해준다.
+                         토큰에서 정보를 가져와 express의 request에 붙여준다 == 토큰을 가져와 해독한 후에 사용자 객체의 request에 추가해준다.
+# yarn add passport-jwt : http://www.passportjs.org/packages/passport-jwt/
+
+# yarn add jsonwebtoken : jwt 토큰을 생성해주는 lib

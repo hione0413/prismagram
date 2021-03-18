@@ -1,0 +1,4 @@
+type Query {
+    # seeUser(id: Int!): userProfile!
+    seeUser(id: Int!): User!
+}
